@@ -1,12 +1,7 @@
 ﻿using RabbitMQ.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IM
@@ -30,15 +25,15 @@ namespace IM
                                      autoDelete: false,
                                      arguments: null);
 
-                string message = "Hello World!";
+                string message = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
                                      routingKey: "hello",
                                      basicProperties: null,
                                      body: body);
-                string text = string.Format(" [x] Sent {0}", message);
-                richTextBox1.Text = text;
+                string text = $" [x] Sent {message}";
+                richTextBox1.Text += text + "\r";
             }
         }
     }
